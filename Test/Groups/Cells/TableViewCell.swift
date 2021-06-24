@@ -12,9 +12,40 @@ import Firebase
 
 class TableViewCell: UITableViewCell {
     // - UI
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var addressTextField: UITextField!
-    @IBOutlet weak var nameTextField: UITextField!
+//    let collectionView: UICollectionView = {
+//        let collectionView = UICollectionView()
+//        collectionView.translatesAutoresizingMaskIntoConstraints = false
+//        return collectionView
+//    }()
+    let addressTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .lightGray
+        textField.layer.cornerRadius = 10
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    let aimImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "aim")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    let nameTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .lightGray
+        textField.layer.cornerRadius = 10
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    let addButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "plus"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    let collectionView: UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+    let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
     
     //- VC
     weak var vc: ViewController!
@@ -27,13 +58,12 @@ class TableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         configure()
-        
+        setupAnchors()
     }
     
-    
-    @IBAction func addButtonAction(_ sender: Any) {
-        vc.presentImagePicker()
-        vc.selectedCell = id
+    override func layoutSubviews() {
+        configure()
+        setupAnchors()
     }
 }
 
@@ -53,6 +83,10 @@ extension TableViewCell {
     }
     
     func configureCollectionView() {
+        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
+        layout.scrollDirection = .vertical
+        collectionView.setCollectionViewLayout(layout, animated: true)
+        collectionView.backgroundColor = .white
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
     }
@@ -64,9 +98,7 @@ extension TableViewCell {
     
     @objc func longPress() {
         vc.checkBox = false
-        if let name = self.nameTextField.text {
-            vc.selectedCell = id
-        }
+        vc.selectedCell = id
         vc.configureDeleteButton()
         collectionView.reloadData()
     }
@@ -136,5 +168,64 @@ extension TableViewCell: UITextFieldDelegate {
             self.endEditing(true)
         }
         return true
+    }
+}
+
+// MARK: -
+// MARK: Configure Anchors
+extension TableViewCell {
+    func setupAnchors() {
+        setupCollectionView()
+        setupAddressTextField()
+        setupAimImageView()
+        setupNameTextField()
+        setupAddButton()
+    }
+    
+    func setupAddressTextField() {
+        self.addSubview(addressTextField)
+        addressTextField.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5).isActive = true
+        addressTextField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5).isActive = true
+        addressTextField.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
+        addressTextField.heightAnchor.constraint(equalToConstant: 34).isActive = true
+    }
+    
+    func setupAimImageView() {
+        self.addSubview(aimImageView)
+        aimImageView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
+        aimImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
+        aimImageView.widthAnchor.constraint(equalToConstant: 34).isActive = true
+        aimImageView.heightAnchor.constraint(equalToConstant: 34).isActive = true
+    }
+    
+    func setupNameTextField() {
+        self.addSubview(nameTextField)
+        nameTextField.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5).isActive = true
+        nameTextField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5).isActive = true
+        nameTextField.topAnchor.constraint(equalTo: addressTextField.bottomAnchor, constant: 5).isActive = true
+        nameTextField.heightAnchor.constraint(equalToConstant: 34).isActive = true
+    }
+    
+    func setupAddButton() {
+        addButton.addTarget(self, action: #selector(addImageButtonAction), for: .touchUpInside)
+        self.addSubview(addButton)
+        addButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
+        addButton.topAnchor.constraint(equalTo: aimImageView.bottomAnchor, constant: 5).isActive = true
+        addButton.widthAnchor.constraint(equalToConstant: 34).isActive = true
+        addButton.heightAnchor.constraint(equalToConstant: 34).isActive = true
+    }
+    
+    @objc func addImageButtonAction(){
+        vc.presentImagePicker()
+        vc.selectedCell = id
+    }
+    
+    func setupCollectionView() {
+        self.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        collectionView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: self.topAnchor, constant: 83).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
 }

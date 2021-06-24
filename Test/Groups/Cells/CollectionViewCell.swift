@@ -11,8 +11,21 @@ import BEMCheckBox
 
 class CollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     // - UI
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var checkBox: BEMCheckBox!
+    let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 5
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    let checkBox: BEMCheckBox = {
+        let checkBox = BEMCheckBox()
+        checkBox.boxType = .circle
+        checkBox.onTintColor = .white
+        checkBox.onCheckColor = .white
+        checkBox.translatesAutoresizingMaskIntoConstraints = false
+        return checkBox
+    }()
     
     // - delegate
     weak var tableCell: TableViewCell!
@@ -23,18 +36,41 @@ class CollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        checkBox.boxType = .circle
-        checkBox.onTintColor = .white
-        checkBox.onCheckColor = .white
-        checkBox.delegate = self
     }
-    override func layoutIfNeeded() {
-        super.layoutIfNeeded()
+    override func layoutSubviews() {
+        checkBox.delegate = self
+        setupImage()
+        setupCheckBox()
     }
 }
 
+// MARK: -
+// MARK: BEMCheckBoxDelegate
 extension CollectionViewCell: BEMCheckBoxDelegate {
     func didTap(_ checkBox: BEMCheckBox) {
         tableCell.vc.cellsToDelete.append(index)
     }
 }
+
+// MARK: -
+// MARK: ConfigureUI
+extension CollectionViewCell {
+    func setupImage() {
+        self.addSubview(imageView)
+        imageView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        imageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive
+         = true
+        imageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        
+    }
+    
+    func setupCheckBox() {
+        self.addSubview(checkBox)
+        checkBox.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 5).isActive = true
+        checkBox.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
+        checkBox.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        checkBox.heightAnchor.constraint(equalToConstant: 25).isActive = true
+    }
+}
+
