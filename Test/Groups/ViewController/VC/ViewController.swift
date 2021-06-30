@@ -12,38 +12,9 @@ import ImagePicker
 
 class ViewController: UIViewController {
     // - UI
-    let vectorImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "Vector")
-        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    let unionImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "Union")
-        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    let locationsLabel: UILabel = {
-        let label = UILabel()
-        label.text = "ЛОКАЦИИ"
-        label.textAlignment = .center
-        label.font = UIFont(descriptor: UIFontDescriptor(name: "Thin", size: 33.0), size: 33.0)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    let nameTextField: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = .lightGray
-        textField.layer.cornerRadius = 10
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
     let deleteButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .black
+        button.backgroundColor = .red
         button.layer.cornerRadius = 17
         button.tintColor = .orange
         button.setTitle("Удалить", for: .normal)
@@ -118,6 +89,8 @@ extension ViewController {
     
     func configureTableView() {
         tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: "MainTableViewCell")
+        tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
         tableView.dataSource = self
         tableView.delegate = self
     }
@@ -151,25 +124,39 @@ extension ViewController {
 // MARK: -
 // MARK: DataSource
 extension ViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dictionary.count
+        if section == 0 {
+            return 1
+        } else {
+            return dictionary.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
-        cell.vc = self
-        let keys: [String] = Array(dictionary.keys) as! [String]
-        let key = keys[indexPath.row]
-        let dict = dictionary[key]
-        if let name = dict!["name"], let place = (dict!["place"]) {
-            cell.nameTextField.text = name as! String
-            cell.addressTextField.text = place as! String
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MainTableViewCell", for: indexPath) as! MainTableViewCell
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
+            cell.makeShadow()
+            cell.vc = self
+            let keys: [String] = Array(dictionary.keys) as! [String]
+            let key = keys[indexPath.row]
+            let dict = dictionary[key]
+            if let name = dict!["name"], let place = (dict!["place"]) {
+                cell.nameTextField.text = name as! String
+                cell.addressTextField.text = place as! String
+            }
+            if let images = dict!["images"] {
+                cell.images = images as! [String]
+            }
+            cell.id = key
+            return cell
         }
-        if let images = dict!["images"] {
-            cell.images = images as! [String]
-        }
-        cell.id = key
-        return cell
     }
 }
 
@@ -177,18 +164,29 @@ extension ViewController: UITableViewDataSource {
 // MARK: Delegate
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let heightOfItem = (tableView.frame.width - 40) / 3 + 10
-        let keys: [String] = Array(dictionary.keys) as! [String]
-        let key = keys[indexPath.row]
-        let dict = dictionary[key]
-        if let images = dict!["images"] as? [String] {
-            let count = images.count
-            let countOfRows = CGFloat(ceil(Double(count) / 3.0))
-            let height = 89 + (countOfRows * heightOfItem)
-            return height
+        if indexPath.section == 0 {
+            return 154
         } else {
-            return 200
+            var heightOfItem = (tableView.frame.width - 40) / 3 + 10
+            let keys: [String] = Array(dictionary.keys) as! [String]
+            let key = keys[indexPath.row]
+            let dict = dictionary[key]
+            if let images = dict!["images"] as? [String] {
+                let count = images.count
+                let countOfRows = CGFloat(ceil(Double(count) / 3.0))
+                if countOfRows == 1 {
+                    heightOfItem += 10
+                }
+                let height = 89 + (countOfRows * heightOfItem)
+                return height
+            } else {
+                return 100
+            }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 10
     }
 }
 
@@ -263,45 +261,9 @@ extension ViewController {
 // MARK: ConfigureAnchors
 extension ViewController {
     func configureAnchors() {
-        setupVectorImageView()
-        setupUnionImageView()
-        setupLocationLabel()
-        setupNameTextField()
         setupTableView()
         setupDeleteButton()
         setupAddButton()
-    }
-    
-    func setupVectorImageView() {
-        view.addSubview(vectorImage)
-        vectorImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
-        vectorImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
-        vectorImage.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
-        vectorImage.heightAnchor.constraint(equalToConstant: 75).isActive = true
-    }
-    
-    func setupUnionImageView() {
-        view.addSubview(unionImage)
-        unionImage.topAnchor.constraint(equalTo: vectorImage.bottomAnchor, constant: -50).isActive = true
-        unionImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
-        unionImage.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
-        unionImage.heightAnchor.constraint(equalToConstant: 75).isActive = true
-    }
-    
-    func setupLocationLabel() {
-        view.addSubview(locationsLabel)
-        locationsLabel.topAnchor.constraint(equalTo: vectorImage.topAnchor).isActive = true
-        locationsLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
-        locationsLabel.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
-        locationsLabel.bottomAnchor.constraint(equalTo: unionImage.bottomAnchor).isActive = true
-    }
-    
-    func setupNameTextField() {
-        view.addSubview(nameTextField)
-        nameTextField.topAnchor.constraint(equalTo: unionImage.bottomAnchor, constant: 10).isActive = true
-        nameTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 35).isActive = true
-        nameTextField.widthAnchor.constraint(equalToConstant: view.frame.width - 70).isActive = true
-        nameTextField.heightAnchor.constraint(equalToConstant: 34).isActive = true
     }
     
     func setupDeleteButton() {
@@ -312,6 +274,7 @@ extension ViewController {
         deleteButton.widthAnchor.constraint(equalToConstant: view.frame.width - 200).isActive = true
         deleteButton.centerYAnchor.constraint(equalToSystemSpacingBelow: view.centerYAnchor, multiplier: 1.5).isActive = true
         deleteButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        deleteButton.makeShadow()
     }
     
     @objc func deleteButtonAction() {
@@ -328,8 +291,8 @@ extension ViewController {
             DispatchQueue.main.async {
                 self!.checkBox = true
                 self!.cellsToDelete.removeAll()
-                self!.configureUI()
                 self!.tableView.reloadData()
+                self!.configureUI()
             }
         }
     }
@@ -341,6 +304,7 @@ extension ViewController {
         addButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         addButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
         addButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        addButton.makeShadow()
     }
     
     @objc func addButtonAction() {
@@ -352,7 +316,7 @@ extension ViewController {
             self!.dictionary = (value as? [String : Dictionary<String, Any>])! ?? [:]
             DispatchQueue.main.async {
                 self!.configureUI()
-                tableView.reloadData()
+                self!.tableView.reloadData()
             }
         }
     }
@@ -361,7 +325,7 @@ extension ViewController {
         view.addSubview(tableView)
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        tableView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 10).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 }

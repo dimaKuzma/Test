@@ -14,6 +14,7 @@ class CollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 5
+        imageView.backgroundColor = .backgroundColor
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -21,8 +22,8 @@ class CollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     let checkBox: BEMCheckBox = {
         let checkBox = BEMCheckBox()
         checkBox.boxType = .circle
-        checkBox.onTintColor = .white
-        checkBox.onCheckColor = .white
+        checkBox.onTintColor = .red
+        checkBox.onCheckColor = .red
         checkBox.translatesAutoresizingMaskIntoConstraints = false
         return checkBox
     }()

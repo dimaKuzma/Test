@@ -17,6 +17,16 @@
 		68385FF3266F3F2100344ECD /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68385FF2266F3F2100344ECD /* TableViewCell.swift */; };
 		683860072677E33300344ECD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 683860062677E33300344ECD /* Constants.swift */; };
 		6838602D2684FAFB00344ECD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6838602C2684FAFB00344ECD /* GoogleService-Info.plist */; };
+		68386031268C46CB00344ECD /* ExUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68386030268C46CB00344ECD /* ExUIView.swift */; };
+		68386033268C4D9700344ECD /* ExUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68386032268C4D9700344ECD /* ExUIColor.swift */; };
+		68386036268C85A300344ECD /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68386035268C85A200344ECD /* TabBarController.swift */; };
+		6838603C268C93CF00344ECD /* Menu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6838603B268C93CE00344ECD /* Menu.storyboard */; };
+		6838603E268C93E700344ECD /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838603D268C93E700344ECD /* MenuViewController.swift */; };
+		68386040268C93FB00344ECD /* ChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838603F268C93FB00344ECD /* ChangeViewController.swift */; };
+		68386042268C941000344ECD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68386041268C941000344ECD /* SettingsViewController.swift */; };
+		68386044268C942700344ECD /* Change.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68386043268C942700344ECD /* Change.storyboard */; };
+		68386046268C943B00344ECD /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68386045268C943B00344ECD /* Settings.storyboard */; };
+		6838604B268CEBD000344ECD /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6838604A268CEBD000344ECD /* MainTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +43,16 @@
 		68385FF7266F8EC200344ECD /* Test-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Test-Bridging-Header.h"; sourceTree = "<group>"; };
 		683860062677E33300344ECD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6838602C2684FAFB00344ECD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../.Trash/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		68386030268C46CB00344ECD /* ExUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExUIView.swift; sourceTree = "<group>"; };
+		68386032268C4D9700344ECD /* ExUIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExUIColor.swift; sourceTree = "<group>"; };
+		68386035268C85A200344ECD /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		6838603B268C93CE00344ECD /* Menu.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Menu.storyboard; sourceTree = "<group>"; };
+		6838603D268C93E700344ECD /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		6838603F268C93FB00344ECD /* ChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeViewController.swift; sourceTree = "<group>"; };
+		68386041268C941000344ECD /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		68386043268C942700344ECD /* Change.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Change.storyboard; sourceTree = "<group>"; };
+		68386045268C943B00344ECD /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		6838604A268CEBD000344ECD /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		B6E521A5EF17586BE110278E /* Pods-Test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test.debug.xcconfig"; path = "Target Support Files/Pods-Test/Pods-Test.debug.xcconfig"; sourceTree = "<group>"; };
 		EFC8D8C92625B33F20994511 /* Pods_Test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -94,6 +114,7 @@
 			children = (
 				68385FF0266F3F0500344ECD /* CollectionViewCell.swift */,
 				68385FF2266F3F2100344ECD /* TableViewCell.swift */,
+				6838604A268CEBD000344ECD /* MainTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -101,6 +122,9 @@
 		683860012677DBAC00344ECD /* Groups */ = {
 			isa = PBXGroup;
 			children = (
+				68386037268C938400344ECD /* UnusedControllers */,
+				68386034268C857B00344ECD /* TabBarController */,
+				6838602F268C46A600344ECD /* Extensions */,
 				683860052677E2A000344ECD /* Constants */,
 				683860022677DBBD00344ECD /* ViewController */,
 				68385FEF266F3EE600344ECD /* Cells */,
@@ -139,6 +163,60 @@
 				683860062677E33300344ECD /* Constants.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		6838602F268C46A600344ECD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				68386030268C46CB00344ECD /* ExUIView.swift */,
+				68386032268C4D9700344ECD /* ExUIColor.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		68386034268C857B00344ECD /* TabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				68386035268C85A200344ECD /* TabBarController.swift */,
+			);
+			path = TabBarController;
+			sourceTree = "<group>";
+		};
+		68386037268C938400344ECD /* UnusedControllers */ = {
+			isa = PBXGroup;
+			children = (
+				6838603A268C93BA00344ECD /* Menu */,
+				68386039268C93A900344ECD /* Change */,
+				68386038268C93A100344ECD /* Settings */,
+			);
+			path = UnusedControllers;
+			sourceTree = "<group>";
+		};
+		68386038268C93A100344ECD /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				68386041268C941000344ECD /* SettingsViewController.swift */,
+				68386045268C943B00344ECD /* Settings.storyboard */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		68386039268C93A900344ECD /* Change */ = {
+			isa = PBXGroup;
+			children = (
+				6838603F268C93FB00344ECD /* ChangeViewController.swift */,
+				68386043268C942700344ECD /* Change.storyboard */,
+			);
+			path = Change;
+			sourceTree = "<group>";
+		};
+		6838603A268C93BA00344ECD /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				6838603B268C93CE00344ECD /* Menu.storyboard */,
+				6838603D268C93E700344ECD /* MenuViewController.swift */,
+			);
+			path = Menu;
 			sourceTree = "<group>";
 		};
 		84CBC145A6D57A6403A5350F /* Pods */ = {
@@ -211,6 +289,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68386044268C942700344ECD /* Change.storyboard in Resources */,
+				6838603C268C93CF00344ECD /* Menu.storyboard in Resources */,
+				68386046268C943B00344ECD /* Settings.storyboard in Resources */,
 				68385FE8266E7F6E00344ECD /* LaunchScreen.storyboard in Resources */,
 				6838602D2684FAFB00344ECD /* GoogleService-Info.plist in Resources */,
 				68385FE5266E7F6E00344ECD /* Assets.xcassets in Resources */,
@@ -267,10 +348,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68386040268C93FB00344ECD /* ChangeViewController.swift in Sources */,
+				68386033268C4D9700344ECD /* ExUIColor.swift in Sources */,
+				68386042268C941000344ECD /* SettingsViewController.swift in Sources */,
+				68386036268C85A300344ECD /* TabBarController.swift in Sources */,
 				683860072677E33300344ECD /* Constants.swift in Sources */,
 				68385FE0266E7F6600344ECD /* ViewController.swift in Sources */,
+				6838603E268C93E700344ECD /* MenuViewController.swift in Sources */,
 				68385FF3266F3F2100344ECD /* TableViewCell.swift in Sources */,
+				68386031268C46CB00344ECD /* ExUIView.swift in Sources */,
 				68385FDC266E7F6600344ECD /* AppDelegate.swift in Sources */,
+				6838604B268CEBD000344ECD /* MainTableViewCell.swift in Sources */,
 				68385FF1266F3F0500344ECD /* CollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

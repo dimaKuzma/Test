@@ -12,15 +12,11 @@ import Firebase
 
 class TableViewCell: UITableViewCell {
     // - UI
-//    let collectionView: UICollectionView = {
-//        let collectionView = UICollectionView()
-//        collectionView.translatesAutoresizingMaskIntoConstraints = false
-//        return collectionView
-//    }()
     let addressTextField: UITextField = {
         let textField = UITextField()
-        textField.backgroundColor = .lightGray
+        textField.backgroundColor = .backgroundColor
         textField.layer.cornerRadius = 10
+        textField.textColor = .black
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -30,17 +26,27 @@ class TableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    let nameTextFieldView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 10.0
+        view.backgroundColor = .backgroundColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     let nameTextField: UITextField = {
         let textField = UITextField()
-        textField.backgroundColor = .lightGray
+        textField.backgroundColor = .backgroundColor
         textField.layer.cornerRadius = 10
+        textField.textColor = .textColor
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
     let addButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "plus"), for: .normal)
+        button.backgroundColor = .black
+        button.layer.cornerRadius = 12
+        button.setImage(UIImage(named: "plusMini"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -85,8 +91,11 @@ extension TableViewCell {
     func configureCollectionView() {
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
         layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+        collectionView.backgroundColor = .backgroundColor
         collectionView.setCollectionViewLayout(layout, animated: true)
-        collectionView.backgroundColor = .white
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
     }
@@ -153,6 +162,8 @@ extension TableViewCell: UICollectionViewDelegate, UICollectionViewDelegateFlowL
             
         }
     }
+    
+    
 }
 
 // MARK: -
@@ -175,44 +186,54 @@ extension TableViewCell: UITextFieldDelegate {
 // MARK: Configure Anchors
 extension TableViewCell {
     func setupAnchors() {
-        setupCollectionView()
         setupAddressTextField()
         setupAimImageView()
+        setupNameTextFieldView()
         setupNameTextField()
+        setupCollectionView()
         setupAddButton()
     }
     
     func setupAddressTextField() {
         self.addSubview(addressTextField)
-        addressTextField.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5).isActive = true
-        addressTextField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5).isActive = true
-        addressTextField.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
+        addressTextField.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20).isActive = true
+        addressTextField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20).isActive = true
+        addressTextField.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
         addressTextField.heightAnchor.constraint(equalToConstant: 34).isActive = true
     }
     
     func setupAimImageView() {
         self.addSubview(aimImageView)
-        aimImageView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
-        aimImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
-        aimImageView.widthAnchor.constraint(equalToConstant: 34).isActive = true
-        aimImageView.heightAnchor.constraint(equalToConstant: 34).isActive = true
+        aimImageView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20).isActive = true
+        aimImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 15).isActive = true
+        aimImageView.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        aimImageView.heightAnchor.constraint(equalToConstant: 24).isActive = true
+    }
+    
+    func setupNameTextFieldView() {
+        self.addSubview(nameTextFieldView)
+        nameTextFieldView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16).isActive = true
+        nameTextFieldView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16).isActive = true
+        nameTextFieldView.topAnchor.constraint(equalTo: addressTextField.bottomAnchor, constant: 10).isActive = true
+        nameTextFieldView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10).isActive = true
+        nameTextFieldView.makeInShadow(to:[.top], radius: 3.0)
     }
     
     func setupNameTextField() {
-        self.addSubview(nameTextField)
-        nameTextField.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5).isActive = true
-        nameTextField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5).isActive = true
-        nameTextField.topAnchor.constraint(equalTo: addressTextField.bottomAnchor, constant: 5).isActive = true
+        nameTextFieldView.addSubview(nameTextField)
+        nameTextField.leftAnchor.constraint(equalTo: nameTextFieldView.leftAnchor, constant: 3).isActive = true
+        nameTextField.rightAnchor.constraint(equalTo: nameTextFieldView.rightAnchor, constant: -3).isActive = true
+        nameTextField.topAnchor.constraint(equalTo: nameTextFieldView.topAnchor, constant: 5).isActive = true
         nameTextField.heightAnchor.constraint(equalToConstant: 34).isActive = true
     }
     
     func setupAddButton() {
         addButton.addTarget(self, action: #selector(addImageButtonAction), for: .touchUpInside)
-        self.addSubview(addButton)
-        addButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
-        addButton.topAnchor.constraint(equalTo: aimImageView.bottomAnchor, constant: 5).isActive = true
-        addButton.widthAnchor.constraint(equalToConstant: 34).isActive = true
-        addButton.heightAnchor.constraint(equalToConstant: 34).isActive = true
+        nameTextFieldView.addSubview(addButton)
+        addButton.rightAnchor.constraint(equalTo: nameTextFieldView.rightAnchor, constant: -10).isActive = true
+        addButton.topAnchor.constraint(equalTo: nameTextFieldView.topAnchor, constant: 10).isActive = true
+        addButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        addButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
     }
     
     @objc func addImageButtonAction(){
@@ -221,11 +242,11 @@ extension TableViewCell {
     }
     
     func setupCollectionView() {
-        self.addSubview(collectionView)
+        nameTextFieldView.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        collectionView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        collectionView.topAnchor.constraint(equalTo: self.topAnchor, constant: 83).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        collectionView.leftAnchor.constraint(equalTo: nameTextFieldView.leftAnchor).isActive = true
+        collectionView.rightAnchor.constraint(equalTo: nameTextFieldView.rightAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 0).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: nameTextFieldView.bottomAnchor, constant: -10).isActive = true
     }
 }
